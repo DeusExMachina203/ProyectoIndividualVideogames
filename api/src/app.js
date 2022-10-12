@@ -4,9 +4,12 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const routes = require('./routes/index.js');
 const {bringGenres} = require('./third_party_requests/genre-requests.js');
+
 const server = express();
 
 server.name = 'API';
+
+
 
 bringGenres();
 

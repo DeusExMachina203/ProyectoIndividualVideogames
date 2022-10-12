@@ -3,15 +3,16 @@ const {API_KEY} = process.env;
 const {Genre} = require('../db.js');
 
 const bringGenres = async () => {
-  await axios.get(`https://api.rawg.io/api/genres?key=${API_KEY}`)
-  .then((response) => {
-    const data = response.data.results;
-    data.map((genre, index) => {
-      let nombre = {id:index+1, name: genre.name};
-      let add_genre = Genre.create(nombre);
-    });
+  const response = await axios.get(`https://api.rawg.io/api/genres?key=${API_KEY}`);
+  const data = response.data.results;
+  let result = [];
+  data.map(async(genre, index) => {
+    let nombre = {id:index+1, name: genre.name};
+    let add_genre = await Genre.create(nombre);
+    result.push(add_genre);
   });
   console.log('genre petition made');
+  return result;
 };
 
 module.exports = {

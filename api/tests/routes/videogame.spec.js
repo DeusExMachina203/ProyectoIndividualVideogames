@@ -5,8 +5,10 @@ const app = require('../../src/app.js');
 const { Videogame, conn } = require('../../src/db.js');
 
 const agent = session(app);
-const videogame = {
+const videogame = { 
   name: 'Super Mario Bros',
+  description: 'ads',
+  available_platforms: ['PC']
 };
 
 describe('Videogame routes', () => {

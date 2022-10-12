@@ -9,13 +9,17 @@ describe('Videogame model', () => {
   describe('Validators', () => {
     beforeEach(() => Videogame.sync({ force: true }));
     describe('name', () => {
-      it('should throw an error if name is null', (done) => {
+      it('should throw an error if obligatory attributes are null', (done) => {
         Videogame.create({})
           .then(() => done(new Error('It requires a valid name')))
           .catch(() => done());
       });
-      it('should work when its a valid name', () => {
-        Recipe.create({ name: 'Super Mario Bros' });
+      it('should work when obligatory attributes are valid', () => {
+        Videogame.create({ 
+          name: 'Super Mario Bros',
+          description: 'ads',
+          available_platforms: ['PC']
+         });
       });
     });
   });
