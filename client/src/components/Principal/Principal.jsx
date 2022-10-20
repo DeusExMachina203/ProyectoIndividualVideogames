@@ -1,6 +1,7 @@
-import style from './Principal.css';
+import style from './Principal.module.css';
 import {useState} from 'react';
 import CardDisplayer from './CardDisplayer/CardDisplayer.jsx';
+import {Link} from 'react-router-dom';
 
 const Principal = () => {
 
@@ -16,7 +17,10 @@ const Principal = () => {
 
 	return (
 		<>
-			<input placeholder = "Buscar..." onChange = {searchTermHandler} value = {searchTerm}/>
+			<div>
+				<input placeholder = "Buscar..." onChange = {searchTermHandler} value = {searchTerm}/>
+				<Link to = "/creation"><button>Agregar juego</button></Link>
+			</div>
 			<hr />
 			<CardDisplayer searchTerm = {searchTerm}/>
 		</>

@@ -10,7 +10,7 @@ const reducer = (state = initialState, action) => {
 		case GET_GAMES:
 			return{
 				...state, 
-				games: action.payload
+				games: [...state.games, ...action.payload]
 			};
 			break;
 		case GET_OWN_GAMES:

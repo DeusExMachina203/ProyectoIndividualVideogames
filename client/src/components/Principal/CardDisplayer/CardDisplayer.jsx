@@ -1,8 +1,11 @@
 import {useDispatch, useSelector} from 'react-redux';
 import {useEffect} from 'react';
 import {get_games, get_own_games} from '../../../redux/actions';
+import GameCard from './GameCard/GameCard';
+import style from'./CardDisplayer.module.css';
 
-const CardDisplayer = (props) => {
+
+const CardDisplayer = ({searchTerm}) => {
 
 	//variables
 	const dispatch = useDispatch();
@@ -20,8 +23,13 @@ const CardDisplayer = (props) => {
 
 	return(
 		<>
-			<div>
-				<button onClick = {a}>a</button>
+			<div className = {style.displayer}>
+				{games.map(game => (<GameCard 
+					name = {game.name} 
+					image = {game.background_image} 
+					genres={game.genres.map(genre=> genre.name).join(', ')} 
+					key = {game.id}
+				/>))}
 			</div>
 		</>
 	);
