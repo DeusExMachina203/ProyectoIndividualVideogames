@@ -28,7 +28,7 @@ videogames.get('/', async (req,res) => {
 		}
 		const videogame_list = await Videogame.findAll();
 		if(videogame_list) res.status(200).json(videogame_list);
-		else res.status(404).json({error_message: 'not videogames posted yet'});
+		else res.status(200).json({error_message: 'not videogames posted yet'});
 	}catch(error){
 		res.status(500).json({error_message: error.message});
 	}
@@ -47,3 +47,4 @@ videogames.get('/:id', async (req, res) =>{
 
 
 module.exports = videogames;
+

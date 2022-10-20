@@ -9,8 +9,6 @@ const server = express();
 
 server.name = 'API';
 
-
-
 bringGenres();
 
 server.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
