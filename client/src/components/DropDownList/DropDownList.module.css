@@ -1,0 +1,12 @@
+.container {
+	max-width: 10vw;
+	max-width: 20%;
+	margin: 10px;
+	border: solid red 1px;
+}
+
+.list{
+	list-style: none;
+	padding: 0px;
+}
+
