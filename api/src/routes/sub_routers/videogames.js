@@ -1,13 +1,16 @@
 const {Router} = require( 'express' );
-const {Videogame} = require('../../db.js');
+const {Videogame, Genre} = require('../../db.js');
 const {Op} = require('sequelize');
 
 const videogames = Router();
 
 videogames.post('/', async (req, res)=>{
-	const {name, description, launch_date, rating, available_platforms} = req.body;
+	const {name, description, launch_date, rating, available_platforms, genres} = req.body;
 	if(name && description && available_platforms){
 		const videogame = await Videogame.create(req.body);
+		const genresList = await videogame.addGenres(genres);
+		const a= await videogame.getGenres();
+		console.log(a.map(b => b.dataValues.name));
 		res.status(201).json(videogame);
 	}
 	else{
@@ -26,8 +29,17 @@ videogames.get('/', async (req,res) => {
 				}
 			});
 		}
-		const videogame_list = await Videogame.findAll();
-		if(videogame_list.length) res.status(200).json(videogame_list);
+		const videogame_list = await Videogame.findAll({
+			include:[{
+				model: Genre,
+				attributes: ['name']
+			}]
+		});
+		
+		const list = videogame_list.map(game => ({...game.dataValues, genres: game.dataValues.genres.map(genre => genre.name)}));
+		console.log(list);
+
+		if(videogame_list.length) res.status(200).json(list);
 		else res.status(404).json({message: 'not videogames posted yet'});
 	}catch(error){
 		res.status(500).json({error_message: error.message});

@@ -25,10 +25,15 @@ module.exports = (sequelize) => {
     },
     rating:{
       type: DataTypes.INTEGER,
+      validate: {
+        max: 10,
+        min:-1,
+      }
     },
     available_platforms:{
       type: DataTypes.ARRAY(DataTypes.ENUM(platforms)),
       allowNull: false,
+      defaultValue: ['unknown'],
     }
-  });
+  }, {timestamps: false});
 };

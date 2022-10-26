@@ -95,7 +95,7 @@ const CardDisplayer = ({searchTerm}) => {
 	return(
 		<>
 			<div className = {style.displayer}>
-				{page.length?page.map(game => (<GameCard 
+				{games.length?page.map(game => (<GameCard 
 					name = {game.name} 
 					image = {game.background_image} 
 					genres={game.genres.map(genre=> genre.name).join(', ')} 

@@ -53,8 +53,8 @@ const Principal = () => {
 			<div className = {style.top}>
 				<input placeholder = "Buscar..." onChange = {searchTermHandler} value = {searchTerm}/>
 				<Link to = "/creation"><button>Agregar juego</button></Link>
-				<DropDownList  setState = {setAlfabeticalFilter} filterName = "alfabetico" elements = {alfabetical.join(' ')} />
-				<DropDownList  setState = {genreGlobalFilterHandler} filterName = "por genero" elements = {genres.map(genre => genre.name).join(' ')} />
+				<DropDownList  setState = {setAlfabeticalFilter} name = "alfabetico" elements = {alfabetical.join(' ')} />
+				<DropDownList  setState = {genreGlobalFilterHandler} name = "por genero" elements = {genres.map(genre => genre.name).join(' ')} />
 			</div>
 			<hr />
 			<CardDisplayer searchTerm = {searchTerm}/>
