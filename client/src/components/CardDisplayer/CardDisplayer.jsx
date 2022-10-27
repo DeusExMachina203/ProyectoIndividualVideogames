@@ -20,6 +20,7 @@ const CardDisplayer = ({searchTerm}) => {
 	const [filteredGamesByGenre, setFilteredGamesByGenre] = useState([]);
 	const [page, setPage] = useState([]);
 	const [appliedAlfabeticalOrder,setAppliedAlfabeticalOrder] = useState('');
+	const [pageNumber, setPageNumber] = useState(0);
 	//methods
 	useEffect(()=>{
 		if(!(games.length)){
@@ -93,6 +94,7 @@ const CardDisplayer = ({searchTerm}) => {
 			if(passValue) filteredGamesResult.push(game);
 		});
 		setFilteredGamesByGenre(filteredGamesResult);
+		setPageNumber(0);
 	};
 
 	const showPage = (value, games) => {
@@ -105,7 +107,22 @@ const CardDisplayer = ({searchTerm}) => {
 
 
 	const pageHandler = (event) => {
-		setPage([...showPage(event.target.value, filteredGamesByGenre)]);
+		if(event.target.value === 'prev'){
+			if(pageNumber > 0){
+				setPage([...showPage(pageNumber -1 , filteredGamesByGenre)]);
+				setPageNumber(pageNumber - 1);
+			}
+		}
+		else if(event.target.value === 'next'){
+			if(pageNumber < Math.ceil(filteredGamesByGenre.length/15-1)){
+				setPage([...showPage(pageNumber +1 , filteredGamesByGenre)]);
+				setPageNumber(pageNumber+1);
+			}
+		}
+		else{
+			setPage([...showPage(event.target.value, filteredGamesByGenre)]);
+			setPageNumber(parseInt(event.target.value));
+		}
 	};
 
 	return(
@@ -120,14 +137,17 @@ const CardDisplayer = ({searchTerm}) => {
 				/>)):<span className={style.loader}></span>}
 			</div>
 			<div className = {style.buttons}>
+			<button className = {style.button_paginate} value = "prev" onClick = {pageHandler} >prev</button>
 				{
 					[...Array(Math.ceil(filteredGamesByGenre.length/15)).keys()].map((num) => (<button 
+						className = {style.button_paginate}
 						key = {num}
 						value = {num} 
 						onClick = {pageHandler}>
 						{num+1}
 					</button>))
 				}
+			<button className = {style.button_paginate} value = "next" onClick = {pageHandler} >next</button>
 			</div>
 		</>
 	);

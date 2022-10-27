@@ -1,7 +1,8 @@
-import {GET_GAMES, GET_OWN_GAMES, GET_GENRES,SET_ORIGIN_FILTER ,SET_GENRE_FILTER_ACTIVATION, SET_GENRE_FILTER, SET_ALFABETICAL_FILTER} from './actions.js';
+import {GET_GAMES, GET_OWN_GAMES, GET_GENRES, GET_CONSOLES, SET_ORIGIN_FILTER ,SET_GENRE_FILTER_ACTIVATION, SET_GENRE_FILTER, SET_ALFABETICAL_FILTER} from './actions.js';
 const initialState = {
 	games:[],
 	genres:[],
+	consoles:[],
 	own_games:[],
 	genre_filter:{
 		poke: 1,
@@ -28,6 +29,12 @@ const reducer = (state = initialState, action) => {
 			return{
 				...state, 
 				genres: action.payload
+			};
+			break;
+		case GET_CONSOLES:
+			return{
+				...state, 
+				consoles: action.payload
 			};
 			break;
 		case SET_GENRE_FILTER:

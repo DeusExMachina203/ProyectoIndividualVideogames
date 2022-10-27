@@ -6,9 +6,11 @@ const Landing = (props) => {
 
 	return(
 		<>
-			<img src ={kirby} alt = "kirby characters" />
-			<h1 className = {`${style.title}`}> im the landing page </h1>
-			<Link to = '/principal' ><button>click</button></Link>
+			<div className = {style.landing}>
+				<img src ={kirby} alt = "kirby characters" className = {style.title_image} />
+				<h1 className = {`${style.title}`}> ¡Bienvenido, gamer! </h1>
+				<Link className = {style.link} to = '/principal'><button className = {style.principal_button}>Ingresa aquí</button></Link>
+			</div>
 		</>
 	);
 };

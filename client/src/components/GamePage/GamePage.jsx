@@ -3,6 +3,7 @@ import {useParams} from 'react-router-dom';
 import {useEffect, useState} from 'react';
 import style from './GamePage.module.css';
 import GameInformation from '../GameInformation/GameInformation';
+import arrow from '../../media/back.png'
 
 const GamePage = () => {
 	//variables
@@ -26,17 +27,19 @@ const GamePage = () => {
 
 	return (
 		<>
-			<Link to = "/principal"><h3>Atrás</h3></Link>
-			{game.name?
-				<GameInformation  img = {game.background_image} 
-					name = {game.name} 
-					description = {game.description}
-					launch_date = {game.launch_date} 
-					rating = {game.rating}
-					platforms = {game.property === 'own'?game.platforms:game.platforms.map(each => each.platform.name).join(' ')}
-					genres = {game.genres?game.genres.map(genre => genre.name).join(' '):' '}
-				/>
-				:<span className={style.loader}></span>}
+			<div className = {style.info_container}>
+				<Link className = {style.back_button} to = "/principal"><img className = {style.back_arrow} src = {arrow} alt = "arrow" /><h3>Atrás</h3></Link>
+				{game.name?
+					<GameInformation  img = {game.background_image} 
+						name = {game.name} 
+						description = {game.description}
+						launch_date = {game.launch_date} 
+						rating = {game.rating}
+						platforms = {game.property === 'own'?game.platforms:game.platforms.map(each => each.platform.name).join(' ')}
+						genres = {game.genres?game.genres.map(genre => genre.name).join(' '):' '}
+					/>
+					:<span className={style.loader}></span>}
+			</div>
 		</>
 	);
 }

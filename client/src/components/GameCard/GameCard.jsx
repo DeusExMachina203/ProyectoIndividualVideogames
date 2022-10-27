@@ -6,11 +6,14 @@ const GameCard = ({name, image, genres, id}) => {
 
 	return(
 		<>
-			<Link className = {style} to = {`/principal/${id}`} >
+			<Link className = {style.link} to = {`/principal/${id}`} >
 				<div className = {style.card}>
-					<img className = {style} src = {image?image:ghost} alt="Game"/>
-					<span>{name} </span>
-					<span>{genres}</span>
+					<img className = {style.card_image} src = {image?image:ghost} alt="Game" width = "500"/>
+					
+					<div className = {style.info}>
+						<span>{name}</span>
+						<span className = {style.genres}>{genres}</span>
+					</div>
 				</div>
 			</Link>
 		</>

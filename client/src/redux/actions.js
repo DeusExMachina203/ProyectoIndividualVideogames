@@ -5,6 +5,7 @@ const GET_OWN_GAMES = "GET_OWN_GAMES";
 const SET_GENRE_FILTER = 'SET_GENRE_FILTER';
 const SET_ALFABETICAL_FILTER = 'SET_ALFABETICAL_FILTER';
 const SET_ORIGIN_FILTER = 'SET_ORIGIN_FILTER';
+const GET_CONSOLES = 'GET_CONSOLES';
 const {API_KEY} = process.env;
 
 const get_games = () => {
@@ -38,6 +39,14 @@ const get_genres = () => {
 	}
 }
 
+const get_consoles = () => {
+	return function(dispatch){
+		fetch(`http://localhost:3001/consoles`)
+		.then(response => response.json())
+		.then(data => dispatch({type: GET_CONSOLES, payload: data}));
+	}
+}
+
 const set_genre_filter = (value) => {
 	return{type: SET_GENRE_FILTER, payload: value};
 };
@@ -51,9 +60,11 @@ const set_origin_filter = (value) => {
 }
 
 
+
 export {
 	get_games,
  	get_genres, 
+ 	get_consoles,
  	get_own_games,
 	set_genre_filter, 
  	set_alfabetical_filter, 
@@ -61,6 +72,7 @@ export {
  	GET_GAMES,
  	GET_OWN_GAMES, 
  	GET_GENRES, 
+ 	GET_CONSOLES,
  	SET_GENRE_FILTER,
  	SET_ORIGIN_FILTER, 
  	SET_ALFABETICAL_FILTER,

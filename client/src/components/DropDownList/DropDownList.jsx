@@ -1,6 +1,7 @@
 import {useState} from 'react';
 import DropDownListItem from '../DropDownListItem/DropDownListItem';
 import style from './DropDownList.module.css';
+import arrow from '../../media/down.png';
 
 const DropDownList = ({setState, name, elements, splitChar}) => {
 
@@ -20,6 +21,7 @@ const DropDownList = ({setState, name, elements, splitChar}) => {
 		<>
 			<div className = {style.container} onMouseEnter={showDrop} onMouseLeave={hideDrop}>
 				{name}
+				<img src = {arrow} alt = "down" />
 				{
 					show?<ul className = {style.list}>
 						{elementList.map(element => (

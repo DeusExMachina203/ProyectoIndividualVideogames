@@ -4,7 +4,7 @@ import Landing from './components/landing/landing';
 import Principal from './components/Principal/Principal';
 import Creation from './components/Creation/Creation';
 import GamePage from './components/GamePage/GamePage';
-
+require("dotenv").config();
 function App() {
 
   return (

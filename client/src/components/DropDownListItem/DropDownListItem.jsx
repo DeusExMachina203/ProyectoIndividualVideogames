@@ -12,12 +12,14 @@ const DropDownListItem =({value, setState}) => {
 
 	return (
 		<>
-			<li 
-				key = {value} 
-				className = {style.element} 
-				onClick = {clickHandler}>
-					{value}
-			</li>
+			<a>
+				<li 
+					key = {value} 
+					className = {style.element} 
+					onClick = {clickHandler}>
+						{value}
+				</li>
+			</a>
 		</>
 	);
 };

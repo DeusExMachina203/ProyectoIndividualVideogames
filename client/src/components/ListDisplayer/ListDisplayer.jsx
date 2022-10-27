@@ -1,6 +1,8 @@
 import {useState, useEffect} from 'react';
+import style from './ListDisplayer.module.css';
+import cross from '../../media/close.png'
 
-const ListDisplayer =  ({elements, setState}) => {
+const ListDisplayer =  ({elements, setState, name}) => {
 
 	const [listElements, setListElements] = useState([]);
 
@@ -10,10 +12,14 @@ const ListDisplayer =  ({elements, setState}) => {
 
 	return (
 		<>
-			<div>
-				{listElements.map(element => <span onClick ={() => {
+			<div className = {style.list}>
+				<span>{name}: </span>
+				{listElements[0] !== ''?listElements.map(element => <span className = {style.tags} onClick ={() => {
 					console.log(element);
-					setState(element)}} key = {element}>{element} </span>)}
+					setState(element)}} key = {element}>
+						{element}
+						<img className = {style.cross} src = {cross} alt = "cross" />
+					 </span>): null}
 			</div>
 		</>
 	)
