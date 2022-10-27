@@ -7,7 +7,7 @@ const bringGenres = async () => {
   const data = response.data.results;
   let result = [];
   data.map(async(genre, index) => {
-    let nombre = {id:index+1, name: genre.name};
+    let nombre = {name: genre.name};
     let add_genre = await Genre.create(nombre);
     result.push(add_genre);
   });

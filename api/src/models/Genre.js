@@ -6,7 +6,7 @@ module.exports = (sequelize) => {
   sequelize.define('genre', {
     id:{
       type: DataTypes.INTEGER,
-      autoincrement: true,
+      autoIncrement: true,
       primaryKey: true
     },
     name: {

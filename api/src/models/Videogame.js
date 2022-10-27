@@ -30,10 +30,5 @@ module.exports = (sequelize) => {
         min:-1,
       }
     },
-    available_platforms:{
-      type: DataTypes.ARRAY(DataTypes.ENUM(platforms)),
-      allowNull: false,
-      defaultValue: ['unknown'],
-    }
   }, {timestamps: false});
 };

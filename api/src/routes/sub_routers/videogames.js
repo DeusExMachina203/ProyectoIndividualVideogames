@@ -1,17 +1,25 @@
 const {Router} = require( 'express' );
-const {Videogame, Genre} = require('../../db.js');
+const {Videogame, Genre, Console} = require('../../db.js');
 const {Op} = require('sequelize');
 
 const videogames = Router();
 
 videogames.post('/', async (req, res)=>{
-	const {name, description, launch_date, rating, available_platforms, genres} = req.body;
+	const {name, description, launch_date, rating, available_platforms, genres, consoles} = req.body;
 	try {
 		if(name && description && available_platforms){
 			const videogame = await Videogame.create(req.body);
-			const genresList = await videogame.addGenres(genres);
-			const a= await videogame.getGenres();
-			console.log(a.map(b => b.dataValues.name));
+			// const genresList = await videogame.addGenres(genres);
+			const genresList = await Promise.all(genres.map(genre => Genre.findOrCreate({
+				where:{name: genre}
+			})));
+			const consolesList = await Promise.all(consoles.map(consoleUnit => Console.findOrCreate({
+				where:{name: consoleUnit}
+			})));
+			await videogame.addGenres(genresList.map(genre => genre[0].dataValues.id));
+			await videogame.addConsoles(consolesList.map(console => console[0].dataValues.id));
+			console.log(genresList[0][0].dataValues);
+			const a = await videogame.getGenres();
 			res.status(201).json(videogame);
 		}
 		else{
