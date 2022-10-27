@@ -5,9 +5,9 @@ const {Op} = require('sequelize');
 const videogames = Router();
 
 videogames.post('/', async (req, res)=>{
-	const {name, description, launch_date, rating, available_platforms, genres, consoles} = req.body;
+	const {name, description, launch_date, rating, genres, consoles} = req.body;
 	try {
-		if(name && description && available_platforms){
+		if(name && description && consoles){
 			const videogame = await Videogame.create(req.body);
 			// const genresList = await videogame.addGenres(genres);
 			const genresList = await Promise.all(genres.map(genre => Genre.findOrCreate({
@@ -40,15 +40,22 @@ videogames.get('/', async (req,res) => {
 					}
 				}
 			});
+			if(videogame_list.length) res.status(200).json(videogame_list);
+			else res.status(404).json({message: 'not videogames posted yet'});
+		}else{
+			const videogame_list = await Videogame.findAll({
+				include:[{
+					model: Genre,
+					attributes: ['name']
+				},
+				{
+					model: Console,
+					attributes: ['name']
+				}]
+			});
+			if(videogame_list.length) res.status(200).json(videogame_list);
+			else res.status(404).json({message: 'not videogames posted yet'});
 		}
-		const videogame_list = await Videogame.findAll({
-			include:[{
-				model: Genre,
-				attributes: ['name']
-			}]
-		});
-		if(videogame_list.length) res.status(200).json(videogame_list);
-		else res.status(404).json({message: 'not videogames posted yet'});
 	}catch(error){
 		res.status(500).json({error_message: error.message});
 	}
@@ -57,10 +64,16 @@ videogames.get('/', async (req,res) => {
 videogames.get('/:id', async (req, res) =>{
 	try{
 		const game = await Videogame.findByPk(req.params.id, {
-			include:[{
-				model: Genre,
-				attributes: ['name']
-			}]
+			include:[
+				{
+					model: Genre,
+					attributes: ['name']
+				},
+				{
+					model: Console,
+					attributes: ['name']
+				}
+			]
 		});
 		if(game) res.status(200).json(game);
 		else res.status(404).json({error_message: 'id not found'});
