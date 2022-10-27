@@ -4,7 +4,7 @@ const GET_GENRES = "GET_GENRES";
 const GET_OWN_GAMES = "GET_OWN_GAMES";
 const SET_GENRE_FILTER = 'SET_GENRE_FILTER';
 const SET_ALFABETICAL_FILTER = 'SET_ALFABETICAL_FILTER';
-const SET_GENRE_FILTER_ACTIVATION = 'SET_GENRE_FILTER_ACTIVATION';
+const SET_ORIGIN_FILTER = 'SET_ORIGIN_FILTER';
 const {API_KEY} = process.env;
 
 const get_games = () => {
@@ -15,7 +15,7 @@ const get_games = () => {
 			pages.map(page => fetch(`https://api.rawg.io/api/games?key=c281fe64559346ee8e2a1c9c99cf53a9&page_size=25&page=${page}`))
 		)
 		.then(responses => Promise.all(responses.map(response => response.json())))
-		.then(data => data.forEach(each => dispatch({type: GET_GAMES, payload: each.results})));
+		.then(data => dispatch({type: GET_GAMES, payload: data.map(each => each.results).flat()}));
 	}
 }
 
@@ -23,7 +23,10 @@ const get_own_games = () => {
 	return function(dispatch){
 		fetch(`http://localhost:3001/videogames`)
 		.then(response => response.json())
-		.then(data => dispatch({type: GET_OWN_GAMES, payload: data}));
+		.then(data => {
+			if(Array.isArray(data)) dispatch({type: GET_OWN_GAMES, payload: data});
+			else dispatch({type: GET_OWN_GAMES, payload: []})
+		});
 	}
 }
 
@@ -43,6 +46,10 @@ const set_alfabetical_filter =(value) => {
 	return {type: SET_ALFABETICAL_FILTER, payload: value};
 }
 
+const set_origin_filter = (value) => {
+	return {type: SET_ORIGIN_FILTER, payload: value};
+}
+
 
 export {
 	get_games,
@@ -50,9 +57,11 @@ export {
  	get_own_games,
 	set_genre_filter, 
  	set_alfabetical_filter, 
- 	GET_GAMES, GET_OWN_GAMES, 
+ 	set_origin_filter,
+ 	GET_GAMES,
+ 	GET_OWN_GAMES, 
  	GET_GENRES, 
- 	SET_GENRE_FILTER, 
+ 	SET_GENRE_FILTER,
+ 	SET_ORIGIN_FILTER, 
  	SET_ALFABETICAL_FILTER,
- 	SET_GENRE_FILTER_ACTIVATION
 };

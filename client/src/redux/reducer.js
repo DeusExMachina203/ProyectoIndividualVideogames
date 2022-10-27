@@ -1,4 +1,4 @@
-import {GET_GAMES, GET_OWN_GAMES, GET_GENRES, SET_GENRE_FILTER_ACTIVATION, SET_GENRE_FILTER, SET_ALFABETICAL_FILTER} from './actions.js';
+import {GET_GAMES, GET_OWN_GAMES, GET_GENRES,SET_ORIGIN_FILTER ,SET_GENRE_FILTER_ACTIVATION, SET_GENRE_FILTER, SET_ALFABETICAL_FILTER} from './actions.js';
 const initialState = {
 	games:[],
 	genres:[],
@@ -8,6 +8,7 @@ const initialState = {
 		list: []
 	},
 	alfabetical_filter:'',
+	origin_filter: 'Todos'
 };
 
 const reducer = (state = initialState, action) => {
@@ -15,7 +16,7 @@ const reducer = (state = initialState, action) => {
 		case GET_GAMES:
 			return{
 				...state, 
-				games: [...state.games, ...action.payload]
+				games: action.payload
 			};
 			break;
 		case GET_OWN_GAMES:
@@ -39,6 +40,12 @@ const reducer = (state = initialState, action) => {
 			return{
 				...state,
 				alfabetical_filter: action.payload
+			};
+			break;
+		case SET_ORIGIN_FILTER:
+			return{
+				...state,
+				origin_filter: action.payload
 			};
 			break;
 		default:

@@ -9,18 +9,23 @@ const CardDisplayer = ({searchTerm}) => {
 
 	//variables
 	const dispatch = useDispatch();
-	const games = useSelector(state => state.games);
+	const foreignGames = useSelector(state => state.games);
+	const ownGames = useSelector(state => state.own_games);
 	const genreFilter = useSelector(state => state.genre_filter);
 	const activation = useSelector(state => state.genre_filter_activation);
-	const alfabeticalFilter = useSelector(state => state.alfabetical_filter)
+	const alfabeticalFilter = useSelector(state => state.alfabetical_filter);
+	const originFilter = useSelector(state => state.origin_filter);
+	const [games, setGames] = useState([]);
 	const [filteredGamesAlfabeticaly, setFilteredGamesAlfabeticaly] = useState([]);
 	const [filteredGamesByGenre, setFilteredGamesByGenre] = useState([]);
 	const [page, setPage] = useState([]);
 	const [appliedAlfabeticalOrder,setAppliedAlfabeticalOrder] = useState('');
 	//methods
 	useEffect(()=>{
-		dispatch(get_own_games());
-		dispatch(get_games());
+		if(!(games.length)){
+			dispatch(get_own_games());
+			dispatch(get_games());
+		}
 	},[]);
 
 	useEffect(() =>{
@@ -34,6 +39,7 @@ const CardDisplayer = ({searchTerm}) => {
 
 	useEffect(() => {
 		filterGamesAlfabeticaly();
+		filterGamesByGenre();
 	}, [filteredGamesAlfabeticaly, alfabeticalFilter]);
 
 	useEffect(() => {
@@ -44,22 +50,33 @@ const CardDisplayer = ({searchTerm}) => {
 		setFilteredGamesAlfabeticaly(games);
 	},[games]);
 
+	useEffect(() => {
+		if(originFilter === 'Todos') setGames([...ownGames, ...foreignGames]);
+		if(originFilter === 'Externo') setGames([...foreignGames]);
+		if(originFilter === 'Propio') setGames([...ownGames]);
+	},[foreignGames, ownGames, originFilter]);
+
+
 	const filterGamesByName = () => {
 		setFilteredGamesAlfabeticaly(games.filter(game => game.name.toLowerCase().includes(searchTerm.toLowerCase())));
 	};
 
 	const filterGamesAlfabeticaly = () => {
 		const filteredGamesCopy = filteredGamesAlfabeticaly;
-		if(alfabeticalFilter === 'descendente'){ 
+		if(alfabeticalFilter === 'Ascendente'){ 
 			filteredGamesCopy.sort((previous, next) => {
-				if(previous.name < next.name) return -1;
-				if(previous.name > next.name) return 1;
+				const isPrevious = previous.name.toLowerCase();
+				const isNext = next.name.toLowerCase();
+				if(isPrevious < isNext) return -1;
+				if(isPrevious > isNext) return 1;
 			})
 		}
-		else if (alfabeticalFilter === 'ascendente'){
+		else if (alfabeticalFilter === 'Descendente'){
 			filteredGamesCopy.sort((previous, next) => {
-				if(previous.name < next.name) return 1;
-				if(previous.name > next.name) return -1;
+				const isPrevious = previous.name.toLowerCase();
+				const isNext = next.name.toLowerCase();
+				if(isPrevious < isNext) return 1;
+				if(isPrevious > isNext) return -1;
 			})
 		}
 		setFilteredGamesByGenre(filteredGamesCopy);
@@ -68,7 +85,6 @@ const CardDisplayer = ({searchTerm}) => {
 
 	const filterGamesByGenre =() => {
 		let filteredGamesResult = [];
-		
 		filteredGamesAlfabeticaly.forEach((game, index) => {
 			let passValue = true;
 			genreFilter.list.forEach(filter => {
@@ -95,10 +111,11 @@ const CardDisplayer = ({searchTerm}) => {
 	return(
 		<>
 			<div className = {style.displayer}>
-				{games.length?page.map(game => (<GameCard 
+				{foreignGames.length?page.map(game => (<GameCard 
 					name = {game.name} 
 					image = {game.background_image} 
 					genres={game.genres.map(genre=> genre.name).join(', ')} 
+					id = {game.id}
 					key = {game.id}
 				/>)):<span className={style.loader}></span>}
 			</div>

@@ -2,11 +2,11 @@ import {useState} from 'react';
 import DropDownListItem from '../DropDownListItem/DropDownListItem';
 import style from './DropDownList.module.css';
 
-const DropDownList = ({setState, name, elements}) => {
+const DropDownList = ({setState, name, elements, splitChar}) => {
 
 	//variables
 	const [show, setShow] = useState(false);
-	const elementList = elements.split(' ');
+	const elementList = elements.split(splitChar);
 
 	//methods
 	const showDrop = () => {

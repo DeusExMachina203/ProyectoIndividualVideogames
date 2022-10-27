@@ -14,3 +14,9 @@ img{
 	inline-size: 10vw;
 	overflow: break-word;
 }
+a {
+  color: #FFF;
+}
+a:hover {
+   color: #00F
+}
